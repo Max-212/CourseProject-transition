@@ -11,7 +11,7 @@ namespace TMI_CourseWork_Itransition.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         [JsonIgnore]
-        public List<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
     }
 }

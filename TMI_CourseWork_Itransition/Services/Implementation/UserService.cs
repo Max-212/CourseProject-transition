@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using TMI_CourseWork_Itransition.Config;
 using TMI_CourseWork_Itransition.Entities;
 using TMI_CourseWork_Itransition.Entities.Context;
 using TMI_CourseWork_Itransition.Models.Request;
@@ -26,10 +28,6 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
 
         public async Task<User> AddUser(RegisterRequest request)
         {
-            if(db.Users.FirstOrDefault(p => p.Email == request.Email) != null)
-            {
-                return null;
-            }
             User user = new User();
             user.Email = request.Email;
             user.Password = BC.HashPassword(request.Password);
@@ -49,11 +47,11 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
             {
                 return null;
             }
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey!1465_qwxc"));
+            var key = JwtOptions.GetSymmetricSecurityKey();
             var now = DateTime.UtcNow;
             var jwt = new JwtSecurityToken(
-                    issuer: "Collections.API",
-                    audience: "Collections.Front",
+                    issuer: JwtOptions.Issuer,
+                    audience: JwtOptions.Audience,
                     notBefore: now,
                     claims: identity.Claims,
                     expires: DateTime.Now.AddDays(30),
@@ -64,7 +62,7 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
 
         private async Task<ClaimsIdentity> GetIdentity(LoginRequest request)
         {
-            var user = db.Users.FirstOrDefault(p => p.Email == request.Email);
+            var user = db.Users.Include(u => u.Role).FirstOrDefault(u => u.Email == request.Email);
             if (user == null || !BC.Verify(request.Password,user.Password))
             {
                 return null;
@@ -72,7 +70,7 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, db.Roles.FirstOrDefault(p=>p.Id == user.RoleId).Name)
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
             };
             ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,

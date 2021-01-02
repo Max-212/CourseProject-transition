@@ -26,10 +26,6 @@ namespace TMI_CourseWork_Itransition.Controllers
         public async Task<ActionResult<User>> CreateUser([FromBody]RegisterRequest request)
         {
             var user = await userService.AddUser(request);
-            if(user == null)
-            {
-                return BadRequest();
-            }
             return Ok(user);
         }
 
@@ -39,7 +35,7 @@ namespace TMI_CourseWork_Itransition.Controllers
             var response = await userService.Login(request);
             if(response == null)
             {
-                return BadRequest();
+                return BadRequest("Invalid email or password");
             }
             return Ok(response);
         }

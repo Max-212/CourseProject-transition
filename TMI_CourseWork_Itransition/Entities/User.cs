@@ -18,8 +18,10 @@ namespace TMI_CourseWork_Itransition.Entities
         public string LastName { get; set; }
         public bool IsActive { get; set; } = true;
 
-        public int? RoleId { get; set; }
-        public Role Role { get; set; }
+        public int RoleID { get; set; }
+        public virtual Role Role { get; set; }
+
+        public virtual ICollection<Collection> Collections { get; set; }
     }
 
 }

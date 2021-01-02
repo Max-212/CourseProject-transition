@@ -14,7 +14,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using TMI_CourseWork_Itransition.Config;
 using TMI_CourseWork_Itransition.Entities.Context;
+using TMI_CourseWork_Itransition.Models.ValidationAtributes;
 using TMI_CourseWork_Itransition.Services.Abstract;
 using TMI_CourseWork_Itransition.Services.Implementation;
 
@@ -38,6 +40,7 @@ namespace TMI_CourseWork_Itransition
             services.AddControllers();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<NotUsedEmail>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
@@ -46,11 +49,11 @@ namespace TMI_CourseWork_Itransition
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
                             ValidateIssuer = true,
-                            ValidIssuer = "Collections.API",
+                            ValidIssuer = JwtOptions.Issuer,
                             ValidateAudience = true,
-                            ValidAudience = "Collections.Front",
+                            ValidAudience = JwtOptions.Audience,
                             ValidateLifetime = true,
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SuperSecretKey!1465_qwxc")),
+                            IssuerSigningKey = JwtOptions.GetSymmetricSecurityKey(),
                             ValidateIssuerSigningKey = true,
                         };
                     });
