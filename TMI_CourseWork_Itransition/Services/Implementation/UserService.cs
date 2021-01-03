@@ -42,7 +42,8 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
 
         public async Task<LoginResponse> Login(LoginRequest request)
         {
-            var identity = await GetIdentity(request);
+            var user = db.Users.Include(u => u.Role).FirstOrDefault(u => u.Email == request.Email);
+            var identity = await GetIdentity(user, request);
             if (identity == null)
             {
                 return null;
@@ -57,12 +58,11 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
                     expires: DateTime.Now.AddDays(30),
                     signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-            return new LoginResponse(request.Email, encodedJwt);
+            return new LoginResponse(user, encodedJwt);
         }
 
-        private async Task<ClaimsIdentity> GetIdentity(LoginRequest request)
+        private async Task<ClaimsIdentity> GetIdentity(User user, LoginRequest request)
         {
-            var user = db.Users.Include(u => u.Role).FirstOrDefault(u => u.Email == request.Email);
             if (user == null || !BC.Verify(request.Password,user.Password))
             {
                 return null;

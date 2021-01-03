@@ -40,7 +40,7 @@ namespace TMI_CourseWork_Itransition
             services.AddControllers();
 
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<NotUsedEmail>();
+            services.AddScoped<ICollectionService, CollectionService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>

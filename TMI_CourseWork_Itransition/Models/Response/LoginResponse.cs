@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TMI_CourseWork_Itransition.Entities;
 
 namespace TMI_CourseWork_Itransition.Models.Response
 {
     public class LoginResponse
     {
-        public string Email { get; set; }
+        public UserResponse User { get; set; }
         public string Token { get; set; }
 
-        public LoginResponse(string email, string token)
+        public LoginResponse(User user, string token)
         {
-            Email = email;
+            User = new UserResponse(user);
             Token = token;
         }
     }
