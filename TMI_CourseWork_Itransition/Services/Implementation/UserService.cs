@@ -29,7 +29,7 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
         public async Task<User> AddUser(RegisterRequest request)
         {
             User user = new User();
-            user.Email = request.Email;
+            user.UserName = request.UserName;
             user.Password = BC.HashPassword(request.Password);
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
@@ -42,7 +42,7 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
 
         public async Task<LoginResponse> Login(LoginRequest request)
         {
-            var user = db.Users.Include(u => u.Role).FirstOrDefault(u => u.Email == request.Email);
+            var user = db.Users.Include(u => u.Role).FirstOrDefault(u => u.UserName == request.UserName);
             var identity = await GetIdentity(user, request);
             if (identity == null)
             {
@@ -69,7 +69,7 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
             }
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role.Name)
             };
             ClaimsIdentity claimsIdentity =

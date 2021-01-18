@@ -17,11 +17,11 @@ namespace TMI_CourseWork_Itransition.Entities
         public string Title { get; set; }
         public string Descriptions { get; set; }
         public string Image { get; set; }
-        public string ItemMask { get; set; }
 
         public int UserId { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<Item> Items { get; set; }
+        public virtual ICollection<CustomFieldHeader> Fieds { get; set; }
 
     }
 }

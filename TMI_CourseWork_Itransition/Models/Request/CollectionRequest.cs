@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using TMI_CourseWork_Itransition.Entities;
 
 namespace TMI_CourseWork_Itransition.Models.Request
 {
@@ -14,9 +15,7 @@ namespace TMI_CourseWork_Itransition.Models.Request
         public string Title { get; set; }
         [Required]
         public string Description { get; set; }
-
         public string Image { get; set; }
-        [Required]
-        public string ItemMask { get; set; }
+        public List<CustomFieldHeader> Fields { get; set; }
     }
 }

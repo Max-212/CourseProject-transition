@@ -9,16 +9,16 @@ using TMI_CourseWork_Itransition.Models.Request;
 
 namespace TMI_CourseWork_Itransition.Models.ValidationAtributes
 {
-    public class NotUsedEmail : ValidationAttribute
+    public class UniqueUserName : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var registerRequest = (RegisterRequest)validationContext.ObjectInstance;
             var db = (ApplicationContext)validationContext.GetService(typeof(ApplicationContext));         
 
-            if (db.Users.FirstOrDefault(p => p.Email == registerRequest.Email) != null)
+            if (db.Users.FirstOrDefault(p => p.UserName == registerRequest.UserName) != null)
             {
-                return new ValidationResult("This email already in use");
+                return new ValidationResult("This UserName already in use");
             }
 
             return ValidationResult.Success;

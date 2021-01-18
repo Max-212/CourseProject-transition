@@ -35,7 +35,7 @@ namespace TMI_CourseWork_Itransition.Controllers
             var response = await userService.Login(request);
             if(response == null)
             {
-                return BadRequest("Invalid email or password");
+                return BadRequest("Invalid username or password");
             }
             return Ok(response);
         }

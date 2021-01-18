@@ -10,11 +10,11 @@ namespace TMI_CourseWork_Itransition.Models.Response
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         public UserResponse(User user)
         {
-            this.Email = user.Email;
+            this.UserName = user.UserName;
             this.FirstName = user.FirstName;
             this.LastName = user.LastName;
         }

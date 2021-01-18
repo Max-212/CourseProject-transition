@@ -41,6 +41,8 @@ namespace TMI_CourseWork_Itransition
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICollectionService, CollectionService>();
+            services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<ITagService, TagService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>

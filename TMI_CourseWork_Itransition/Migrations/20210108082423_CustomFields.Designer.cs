@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TMI_CourseWork_Itransition.Entities.Context;
 
 namespace TMI_CourseWork_Itransition.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210108082423_CustomFields")]
+    partial class CustomFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,26 +160,6 @@ namespace TMI_CourseWork_Itransition.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.Like", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("ItemID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemID");
-
-                    b.ToTable("Likes");
-                });
-
             modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -212,8 +194,8 @@ namespace TMI_CourseWork_Itransition.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Title")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -226,6 +208,9 @@ namespace TMI_CourseWork_Itransition.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -241,9 +226,6 @@ namespace TMI_CourseWork_Itransition.Migrations
 
                     b.Property<int>("RoleID")
                         .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -301,7 +283,7 @@ namespace TMI_CourseWork_Itransition.Migrations
             modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.CustomFieldValue", b =>
                 {
                     b.HasOne("TMI_CourseWork_Itransition.Entities.Item", "Item")
-                        .WithMany("Fields")
+                        .WithMany("Fieds")
                         .HasForeignKey("ItemID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -318,17 +300,6 @@ namespace TMI_CourseWork_Itransition.Migrations
                         .IsRequired();
 
                     b.Navigation("Collection");
-                });
-
-            modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.Like", b =>
-                {
-                    b.HasOne("TMI_CourseWork_Itransition.Entities.Item", "Item")
-                        .WithMany("Likes")
-                        .HasForeignKey("ItemID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.User", b =>
@@ -353,9 +324,7 @@ namespace TMI_CourseWork_Itransition.Migrations
                 {
                     b.Navigation("Comments");
 
-                    b.Navigation("Fields");
-
-                    b.Navigation("Likes");
+                    b.Navigation("Fieds");
                 });
 
             modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.Role", b =>

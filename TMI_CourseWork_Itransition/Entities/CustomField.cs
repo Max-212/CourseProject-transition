@@ -7,18 +7,12 @@ using System.Threading.Tasks;
 
 namespace TMI_CourseWork_Itransition.Entities
 {
-    public class Item
+    public class CustomField
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Title { get; set; }
-        
-        public virtual ICollection<CustomFieldValue> Fields { get; set; }
-        public int CollectionID { get; set; }
-        public virtual Collection Collection { get; set; }
-        public virtual ICollection<Tag> Tags { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Like> Likes { get; set; }
+        public FieldType Type { get; set; }
     }
 }

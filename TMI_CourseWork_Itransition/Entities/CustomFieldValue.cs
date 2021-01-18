@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace TMI_CourseWork_Itransition.Entities
 {
-    public class Tag
+    public class CustomFieldValue : CustomField
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public string Title { get; set; }
+        public string Value { get; set; }
+
+        public int ItemID { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<Item> Items { get; set; }
+        public Item Item { get; set; }
     }
 }

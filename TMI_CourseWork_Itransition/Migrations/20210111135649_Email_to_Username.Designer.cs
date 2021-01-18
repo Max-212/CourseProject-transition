@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TMI_CourseWork_Itransition.Entities.Context;
 
 namespace TMI_CourseWork_Itransition.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210111135649_Email_to_Username")]
+    partial class Email_to_Username
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,26 +160,6 @@ namespace TMI_CourseWork_Itransition.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.Like", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("ItemID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemID");
-
-                    b.ToTable("Likes");
-                });
-
             modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -320,17 +302,6 @@ namespace TMI_CourseWork_Itransition.Migrations
                     b.Navigation("Collection");
                 });
 
-            modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.Like", b =>
-                {
-                    b.HasOne("TMI_CourseWork_Itransition.Entities.Item", "Item")
-                        .WithMany("Likes")
-                        .HasForeignKey("ItemID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-                });
-
             modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.User", b =>
                 {
                     b.HasOne("TMI_CourseWork_Itransition.Entities.Role", "Role")
@@ -354,8 +325,6 @@ namespace TMI_CourseWork_Itransition.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Fields");
-
-                    b.Navigation("Likes");
                 });
 
             modelBuilder.Entity("TMI_CourseWork_Itransition.Entities.Role", b =>

@@ -10,9 +10,14 @@ namespace TMI_CourseWork_Itransition.Services.Abstract
 {
     public interface ICollectionService
     {
-        Task<CollectionResponse> AddCollection(CollectionRequest request, string userEmail);
+        Task<CollectionResponse> AddCollection(CollectionRequest request, string userName);
 
         Task<List<CollectionResponse>> GetAllCollections();
 
+        Task<List<CollectionResponse>> GetCollectionsByUserName(string userName);
+
+        Task<CollectionResponse> UpdateCollection(CollectionRequest request, string userName, int collectionId);
+
+        Task<List<CollectionResponse>> DeleteCollection(int collectionId, string userName);
     }
 }

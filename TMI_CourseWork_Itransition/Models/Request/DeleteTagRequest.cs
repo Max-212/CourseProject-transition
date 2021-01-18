@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace TMI_CourseWork_Itransition.Models.Request
 {
-    public class LoginRequest
+    public class DeleteTagRequest
     {
         [Required]
-        public string UserName { get; set; }
-
+        public int TagId { get; set; }
         [Required]
-        public string Password { get; set; }
+        public int ItemId { get; set; }
     }
 }
