@@ -12,6 +12,8 @@ namespace TMI_CourseWork_Itransition.Models.Response
         public string Title { get; set; }
         public ICollection<CustomFieldValue> Fields { get; set; }
         public int CollectionID { get; set; }
+        public int LikesCount { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         public ICollection<Tag> Tags { get; set; }
         public ICollection<Comment> Comments { get; set; }
@@ -26,6 +28,11 @@ namespace TMI_CourseWork_Itransition.Models.Response
             this.Tags = item.Tags;
             this.Comments = item.Comments;
             this.Likes = item.Likes;
+            if (Likes == null)
+                this.LikesCount = 0;
+            else
+                this.LikesCount = item.Likes.Count;
+            this.CreatedDate = item.CreatedDate;
         }
     }
 }

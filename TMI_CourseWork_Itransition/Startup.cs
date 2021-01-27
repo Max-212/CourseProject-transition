@@ -34,9 +34,16 @@ namespace TMI_CourseWork_Itransition
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = "Server=.\\SQLEXPRESS;Database=CourseWork_Itransition;Integrated Security=true";
+            string connection = "Server=tcp:tmi-coursework-itransition.database.windows.net,1433;Initial Catalog=CourseWork_Itransition;Persist Security Info=False;User ID=tmi;Password={password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("TestPolicy", builder => builder
+                       .AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .SetIsOriginAllowedToAllowWildcardSubdomains());
+            });
             services.AddControllers();
 
             services.AddScoped<IUserService, UserService>();
@@ -68,7 +75,7 @@ namespace TMI_CourseWork_Itransition
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors("TestPolicy");
             app.UseHttpsRedirection();
 
             app.UseRouting();

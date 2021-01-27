@@ -19,5 +19,7 @@ namespace TMI_CourseWork_Itransition.Services.Abstract
         Task<CollectionResponse> UpdateCollection(CollectionRequest request, string userName, int collectionId);
 
         Task<List<CollectionResponse>> DeleteCollection(int collectionId, string userName);
+
+        Task<CollectionResponse> GetCollectionById(int collectionId);
     }
 }

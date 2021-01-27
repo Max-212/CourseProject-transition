@@ -30,6 +30,14 @@ namespace TMI_CourseWork_Itransition.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<CollectionResponse>> GetCollection(int id)
+        {
+            var response = await collectionService.GetCollectionById(id);
+            if (response == null) return NotFound();
+            return Ok(response);
+        }
+
         [HttpGet("user")]
         public async Task<ActionResult<List<CollectionResponse>>> GetCollectionsByUserName([FromQuery]string username)
         {

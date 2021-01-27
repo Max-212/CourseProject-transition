@@ -49,6 +49,7 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
             item.Title = request.Title;
             item.Fields = request.Fields;
             item.CollectionID = request.CollectionID;
+            item.CreatedDate = DateTime.UtcNow;
             collection.Items.Add(item);
             db.SaveChanges();
             return new ItemResponse(item);
@@ -78,7 +79,9 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
         {
             List<ItemResponse> response = new List<ItemResponse>();
             var items = db.Items.Include(i => i.Tags)
-                .Include(i => i.Fields).Where(i => i.CollectionID == collectionId);
+                .Include(i => i.Fields)
+                .Include(i => i.Likes)
+                .Where(i => i.CollectionID == collectionId);
             if (items == null)
                 return null;
             foreach(var item in items)
@@ -93,6 +96,7 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
         {
             var item = db.Items.Include(i => i.Tags)
                 .Include(i => i.Comments)
+                .Include(i => i.Likes)
                 .Include(i => i.Fields).FirstOrDefault(i => i.Id == itemId);
             if (item == null)
                 return null;

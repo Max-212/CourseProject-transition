@@ -13,12 +13,14 @@ namespace TMI_CourseWork_Itransition.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Title { get; set; }
-        
+        public DateTime CreatedDate { get; set; }
+
         public virtual ICollection<CustomFieldValue> Fields { get; set; }
         public int CollectionID { get; set; }
         public virtual Collection Collection { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Like> Likes { get; set; }
+
     }
 }

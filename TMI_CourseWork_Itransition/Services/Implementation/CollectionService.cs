@@ -52,6 +52,15 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
             return GetCollectionResponseList(collections);
         }
 
+        public async Task<CollectionResponse> GetCollectionById(int collectionId)
+        {
+            var collection = db.Collections
+                .Include(c => c.User)
+                .Include(c => c.Fieds).FirstOrDefault(c => c.Id == collectionId);
+            if (collection == null) return null;
+            return new CollectionResponse(collection, collection.User);
+        }
+
         public async Task<List<CollectionResponse>> GetCollectionsByUserName(string userName)
         {
             var collections = db.Collections
