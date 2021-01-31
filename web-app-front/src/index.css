@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
@@ -48,3 +49,49 @@ ul{
   cursor: pointer;
 }
 
+
+.item__preview
+{
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.item__preview:hover
+{
+  box-shadow: 0 0 5px rgba(136, 34, 34, 0.877);
+  cursor: pointer;
+}
+
+.like
+{
+  font-size: 24px;
+  color :rgba(189, 189, 189, 0.945)
+}
+
+.like:hover
+{
+  color :rgba(150, 150, 150, 0.945);
+  cursor: pointer;
+}
+
+.like-active
+{
+  font-size: 24px;
+  color :rgba(206, 16, 16, 0.945);
+}
+
+.like-active:hover
+{
+  cursor: pointer;
+  color :rgba(161, 15, 15, 0.945);
+}
+
+.deleteTag
+{
+  cursor: pointer;
+  color: rgb(133, 133, 133);
+}
+
+.deleteTag:hover
+{
+  color: black;  
+}

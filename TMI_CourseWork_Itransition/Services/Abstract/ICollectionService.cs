@@ -21,5 +21,7 @@ namespace TMI_CourseWork_Itransition.Services.Abstract
         Task<List<CollectionResponse>> DeleteCollection(int collectionId, string userName);
 
         Task<CollectionResponse> GetCollectionById(int collectionId);
+
+        Task<List<CollectionResponse>> GetLargestCollections();
     }
 }

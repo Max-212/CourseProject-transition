@@ -28,6 +28,20 @@ class CollectionService
         })
     }
 
+    getLargestCollections()
+    {
+        return axios
+        .get(API_URL)
+        .then((response) =>
+        {
+            return response;
+        })
+        .catch((error) =>
+        {
+            return error.response;
+        })
+    }
+
     getUserCollections(username)
     {
         return axios

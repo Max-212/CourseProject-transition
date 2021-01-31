@@ -60,7 +60,7 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
             var item = db.Items.Include(i => i.Likes).FirstOrDefault(i => i.Id == itemId);
             if (item == null) return null;
             var like = item.Likes.FirstOrDefault(l => l.Username == username);
-            if(like == null)
+            if (like == null)
             {
                 like = new Like();
                 like.Username = username;
@@ -75,32 +75,93 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
             return new ItemResponse(item);
         }
 
+        public async Task<List<ItemResponse>> GetLastItems()
+        {
+            var items = db.Items
+                .Include(i => i.Likes)
+                .OrderByDescending(i => i.CreatedDate).Take(5).ToList();
+            return GetItemResponseList(items);
+        }
+
         public async Task<List<ItemResponse>> GetItems(int collectionId)
         {
-            List<ItemResponse> response = new List<ItemResponse>();
             var items = db.Items.Include(i => i.Tags)
                 .Include(i => i.Fields)
                 .Include(i => i.Likes)
-                .Where(i => i.CollectionID == collectionId);
+                .Where(i => i.CollectionID == collectionId).ToList();
             if (items == null)
                 return null;
-            foreach(var item in items)
-            {
-                ItemResponse responseItem = new ItemResponse(item);
-                response.Add(responseItem);
-            }
-            return response;
+            return GetItemResponseList(items);
+        }
+
+        public async Task<List<ItemResponse>> SearchItems(string querry)
+        {
+            var items = db.Items
+                .Where(i =>
+                    EF.Functions.FreeText(i.Title, querry) ||
+                    EF.Functions.FreeText(i.Collection.Descriptions, querry) ||
+                    i.Comments.Any(c => EF.Functions.FreeText(c.Text, querry))||
+                    i.Fields.Any(f => EF.Functions.FreeText(f.Value, querry)))
+                    .ToList();
+            return GetItemResponseList(items);
         }
 
         public async Task<ItemResponse> GetOneItem(int itemId)
         {
             var item = db.Items.Include(i => i.Tags)
+                .Include(i => i.Collection)
+                    .ThenInclude(c => c.User)
+                    .Include(c => c.Collection.Fieds)
                 .Include(i => i.Comments)
                 .Include(i => i.Likes)
                 .Include(i => i.Fields).FirstOrDefault(i => i.Id == itemId);
             if (item == null)
                 return null;
             var response = new ItemResponse(item);
+            return response;
+        }
+
+        public async Task<string> DeleteItem(int itemId, string username)
+        {
+            var deleteItem = db.Items
+                .Include(i => i.Collection)
+                    .ThenInclude(c => c.User).FirstOrDefault(i => i.Id == itemId);
+            if (deleteItem.Collection.User.UserName != username || deleteItem == null)
+                return null;
+            db.Items.Remove(deleteItem);
+            db.SaveChanges();
+            return "deleted";
+        }
+
+        public async Task<ItemResponse> UpdateItem(ItemRequest request, int itemId, string username)
+        {
+            var item = db.Items
+                .Include(i => i.Collection)
+                    .ThenInclude(c => c.User)
+                .Include(i => i.Fields).FirstOrDefault(i => i.Id == itemId && i.Collection.User.UserName == username);
+            if (item == null)
+                return null;
+            item.Title = request.Title;
+            item.Fields = request.Fields;
+            db.Items.Update(item);
+            db.SaveChanges();
+            return new ItemResponse(item);
+        }
+
+        public async Task<List<Comment>> GetCommentsByItem(int itemId)
+        {
+            var comments = db.Comments.Where(c => c.ItemID == itemId).ToList();
+            return comments;
+        }
+
+        private List<ItemResponse> GetItemResponseList(List<Item> items)
+        {
+            List<ItemResponse> response = new List<ItemResponse>();
+            foreach (var item in items)
+            {
+                ItemResponse responseItem = new ItemResponse(item);
+                response.Add(responseItem);
+            }
             return response;
         }
     }

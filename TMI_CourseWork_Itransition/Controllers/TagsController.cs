@@ -56,7 +56,7 @@ namespace TMI_CourseWork_Itransition.Controllers
         [HttpGet("tags")]
         public async Task<ActionResult<List<Tag>>> GetTags()
         {
-            var response = await tagService.GetTags();
+            var response = await tagService.GetPopularTags();
             return Ok(response);
         }
     }

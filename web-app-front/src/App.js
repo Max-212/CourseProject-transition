@@ -11,6 +11,9 @@ import CollectionView from './components/Content/CollectionView';
 import UpdateCollection from './components/UserPage/UpdateCollection/UpdateCollection';
 import ItemsPage from './components/Content/ItemsPage';
 import CreateItem from './components/UserPage/Collections/Items/CreateItem';
+import ItemView from './components/Content/ItemView';
+import UpdateItem from './components/UserPage/Collections/Items/UpdateItem';
+import SearchItemsPage from './components/Content/SearchItemsPage';
 
 function App() {
   
@@ -24,10 +27,11 @@ function App() {
 
   return (
     <Context.Provider value = {{user, setUser}}>
-      <Header/>
       <Router>
+        <Header/>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
           <Route path="/login" component={Authorization} />
           <Route path="/register" component = {Registration} />
           <Route path="/userPage" component = {UserPage} />
@@ -36,6 +40,9 @@ function App() {
           <Route path="/updateCollection/:id" component = {UpdateCollection} />
           <Route exact path="/collection/:id/items" component = {ItemsPage} />
           <Route path="/createItem/:id" component = {CreateItem} />
+          <Route exact path="/item/:id" component = {ItemView} />
+          <Route path="/updateItem/:id" component = {UpdateItem} />
+          <Route path="/items" component = {SearchItemsPage} />
         </Switch>
       </Router>
     </Context.Provider>

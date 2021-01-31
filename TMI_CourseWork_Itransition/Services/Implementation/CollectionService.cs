@@ -52,6 +52,13 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
             return GetCollectionResponseList(collections);
         }
 
+        public async Task<List<CollectionResponse>> GetLargestCollections()
+        {
+            var collections = db.Collections.Include(c => c.User)
+                .OrderByDescending(c => c.Items.Count).Take(6).ToList();
+            return GetCollectionResponseList(collections);
+        }
+
         public async Task<CollectionResponse> GetCollectionById(int collectionId)
         {
             var collection = db.Collections

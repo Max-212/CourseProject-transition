@@ -61,8 +61,12 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
         public async Task<List<ItemResponse>> GetItemsByTag(string tagName)
         {
             List<ItemResponse> response = new List<ItemResponse>();
-            List<Item> items = db.Tags.Include(t => t.Items)
-                .ThenInclude(i => i.Fields).FirstOrDefault(t => t.Title == tagName).Items.ToList();
+            Tag tag = db.Tags.Include(t => t.Items)
+                .ThenInclude(i => i.Likes)
+                .FirstOrDefault(t => t.Title == tagName);
+            if (tag == null)
+                return null;
+            List<Item> items = tag.Items.ToList();
             if (items == null)
                 return null;
             foreach (var item in items)
@@ -71,6 +75,12 @@ namespace TMI_CourseWork_Itransition.Services.Implementation
                 response.Add(responseItem);
             }
             return response;
+        }
+
+        public async Task<List<Tag>> GetPopularTags()
+        {
+            var tags = db.Tags.OrderByDescending(t => t.Items.Count).Take(15).ToList();
+            return tags;
         }
 
         public async Task<List<Tag>> GetTags()

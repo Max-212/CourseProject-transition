@@ -17,5 +17,7 @@ namespace TMI_CourseWork_Itransition.Services.Abstract
         public Task<List<ItemResponse>> GetItemsByTag(string tagName);
 
         public Task<List<Tag>> GetTags();
+
+        public Task<List<Tag>> GetPopularTags();
     }
 }

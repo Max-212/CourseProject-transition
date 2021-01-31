@@ -24,9 +24,9 @@ namespace TMI_CourseWork_Itransition.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CollectionResponse>>> GetAllCollections()
+        public async Task<ActionResult<List<CollectionResponse>>> GetLargestCollections()
         {
-            var response = await collectionService.GetAllCollections();
+            var response = await collectionService.GetLargestCollections();
             return Ok(response);
         }
 
